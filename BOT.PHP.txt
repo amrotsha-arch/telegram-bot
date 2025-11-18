@@ -1,0 +1,11 @@
+<?php
+$bot_TOKEN = "8563711770:AAFZ7XOWXsBbXBKhHy8KLIHtXoStWEIrLdE";
+
+$update = json_decode(file_get_contents("php://input"), true);
+$chat_id = $update["message"]["chat"]["id"];
+$text = $update["message"]["text"];
+
+if ($text == "/start") {
+    file_get_contents("https://api.telegram.org/bot$bot_TOKEN/sendMessage?chat_id=$chat_id&text=تم تشغيل البوت بنجاح! ✔");
+}
+?>

